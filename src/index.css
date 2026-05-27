@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Color Palette 2026 - Premium & Deep */
+  --bg-primary: #050914;
+  /* Deepest Midnight */
+  --bg-secondary: #0A0F1D;
+  --bg-tertiary: #111827;
+
+  --accent-primary: #00C8D4;
+  /* Teal cyan — meio-termo entre a marca #63BFC7 e o ciano elétrico anterior */
+  --accent-secondary: #0891B2;
+  /* Teal profundo — complementa o accent sem ser roxo */
+  --accent-glow: rgba(0, 200, 212, 0.15);
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  --border-light: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --bg-glass: rgba(10, 15, 29, 0.4);
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+
+  --nav-height: 90px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+ul {
+  list-style: none;
+}
+
+/* Fluid Layout & Sections */
+.fluid-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 5%;
+  /* Fluid horizontal padding */
+}
+
+.fluid-section {
+  padding: 120px 0;
+  position: relative;
+}
+
+.fluid-section.small-padding {
+  padding: 80px 0;
+}
+
+/* Glassmorphism & Effects */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+}
+
+.glass-nav {
+  background: rgba(5, 9, 20, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+
+/* Gradients */
+.text-gradient {
+  background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Elements */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: -1;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.glow-orb.cyan {
+  background: var(--accent-primary);
+}
+
+.glow-orb.indigo {
+  background: var(--accent-secondary);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  border-radius: 100px;
+  /* Pill shape for modern feel */
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  gap: 12px;
+  font-family: var(--font-body);
+}
+
+.btn-primary {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: #fff;
+  box-shadow: 0 4px 24px var(--accent-glow);
+}
+
+.btn-accent:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(0, 229, 255, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-glass);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   SISTEMA DE IMAGEM DE FUNDO
+   Ativa via --section-bg: url('...')
+   Inclui overlay escuro automático para manter legibilidade
+   ============================================ */
+.bg-image-overlay {
+  background-image: var(--section-bg, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  isolation: isolate;
+}
+
+/* Overlay escuro por cima da imagem */
+.bg-image-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(5, 9, 20, 0.91) 0%,
+    rgba(5, 9, 20, 0.72) 60%,
+    rgba(5, 9, 20, 0.85) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Garante que o conteúdo interno fique acima do overlay */
+.bg-image-overlay > .fluid-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+/* Scroll Animations */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate.delay-100 {
+  transition-delay: 100ms;
+}
+
+.scroll-animate.delay-200 {
+  transition-delay: 200ms;
+}
+
+.scroll-animate.delay-300 {
+  transition-delay: 300ms;
+}
+
+.scroll-animate.delay-400 {
+  transition-delay: 400ms;
+}
+
+/* Responsive Typography */
+.hero-title {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+}

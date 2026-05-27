@@ -1,0 +1,188 @@
+/* ============================================
+   HEADER — Sprint de Polimento 2026
+   ============================================ */
+
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.site-header.scrolled {
+  /* Suavizado: navy semi-transparente em vez do midnight muito denso */
+  background: rgba(13, 27, 50, 0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom-color: var(--border-light);
+}
+
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.header-logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-logo img {
+  height: 44px;
+  object-fit: contain;
+}
+
+/* Desktop Nav */
+.desktop-nav {
+  display: none;
+}
+
+.nav-list {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+/* Botão de nav com underline animado */
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.975rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-family: var(--font-body);
+  padding: 6px 0;
+  position: relative;
+  letter-spacing: 0.01em;
+}
+
+/* Underline do hover/active */
+.nav-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-btn:hover {
+  color: var(--text-primary);
+}
+
+.nav-btn:hover::after {
+  width: 100%;
+}
+
+/* Página ativa */
+.nav-btn.active {
+  color: var(--text-primary);
+}
+
+.nav-btn.active::after {
+  width: 100%;
+  background: var(--accent-primary);
+}
+
+/* CTA + Toggle */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-cta {
+  display: none;
+  padding: 10px 24px;
+  font-size: 0.975rem;
+}
+
+.mobile-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: opacity 0.2s;
+}
+
+.mobile-toggle:hover {
+  opacity: 0.7;
+}
+
+/* Menu mobile overlay */
+.mobile-menu {
+  position: absolute;
+  top: calc(var(--nav-height) + 12px);
+  left: 16px;
+  right: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 99;
+}
+
+.mobile-nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 1.15rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+  padding: 16px 4px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: color 0.25s ease;
+  letter-spacing: 0.01em;
+}
+
+.mobile-nav-btn:last-of-type {
+  border-bottom: none;
+}
+
+.mobile-nav-btn:hover,
+.mobile-nav-btn.active {
+  color: var(--accent-primary);
+}
+
+.mobile-cta {
+  margin-top: 20px;
+  width: 100%;
+  padding: 16px;
+  justify-content: center;
+}
+
+/* Responsive: exibe desktop nav acima de 992px */
+@media (min-width: 992px) {
+  .desktop-nav {
+    display: block;
+  }
+
+  .mobile-toggle {
+    display: none;
+  }
+
+  .header-cta {
+    display: inline-flex;
+  }
+}

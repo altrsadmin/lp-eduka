@@ -1,0 +1,167 @@
+/* Rodapé — estilos globais */
+
+.site-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-glass);
+  padding-top: 80px;
+  padding-bottom: 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 64px;
+  margin-bottom: 48px;
+}
+
+.footer-brand-logo {
+  height: 50px;
+  margin-bottom: 24px;
+}
+
+.footer-brand-desc {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 0.95rem;
+  margin-bottom: 18px;
+}
+
+.footer-about-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--border-glass);
+  color: rgba(0, 200, 212, 0.9);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all 0.3s ease;
+}
+
+.footer-about-btn:hover {
+  color: var(--accent-primary);
+  border-color: rgba(0, 200, 212, 0.4);
+  background: rgba(0, 200, 212, 0.07);
+}
+
+.footer-col-title {
+  font-size: 1.25rem;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.footer-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-nav-link {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.footer-nav-link:hover {
+  color: var(--accent-primary);
+}
+
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-contact-item--address {
+  align-items: flex-start;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.footer-contact-address {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-contact-link--address {
+  line-height: 1.65;
+}
+
+.footer-contact-icon {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.footer-contact-link {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.footer-contact-link:hover {
+  color: var(--accent-primary);
+}
+
+/* Polos futuros: dados em src/data/footer.js → FOOTER_POLOS */
+
+.footer-bottom {
+  border-top: 1px solid var(--border-glass);
+  padding-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.footer-bottom-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.footer-legal-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-legal-links li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-legal-links li:not(:last-child)::after {
+  content: '·';
+  margin-left: 10px;
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
+.footer-legal-link {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease, opacity 0.25s ease;
+  opacity: 0.88;
+}
+
+.footer-legal-link:hover {
+  color: var(--text-secondary);
+  opacity: 1;
+}

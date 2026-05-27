@@ -1,0 +1,86 @@
+.info-page {
+  padding-top: 160px;
+  background: linear-gradient(180deg, rgba(0, 200, 212, 0.04) 0%, transparent 100%);
+}
+
+.info-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 40px 48px;
+}
+
+.info-eyebrow {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin-bottom: 10px;
+}
+
+.info-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--text-primary);
+}
+
+.info-divider {
+  height: 1px;
+  background: var(--border-glass);
+  margin: 24px 0 28px;
+}
+
+.info-loading,
+.info-error {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.info-markdown {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.info-markdown h1,
+.info-markdown h2,
+.info-markdown h3 {
+  color: var(--text-primary);
+  margin: 24px 0 12px;
+}
+
+.info-markdown p {
+  margin-bottom: 14px;
+}
+
+.info-markdown ul,
+.info-markdown ol {
+  margin: 8px 0 16px 22px;
+}
+
+.info-markdown li {
+  margin-bottom: 6px;
+}
+
+.info-markdown hr {
+  border: 0;
+  border-top: 1px solid var(--border-light);
+  margin: 24px 0;
+}
+
+.info-markdown strong {
+  color: var(--text-primary);
+}
+
+.info-markdown code {
+  font-family: monospace;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .info-page {
+    padding-top: 130px;
+  }
+
+  .info-card {
+    padding: 28px 22px 36px;
+  }
+}
