@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { getRadarId } from '../hooks/useTracking';
 
 export default function Contato() {
     return (
@@ -43,7 +44,15 @@ export default function Contato() {
                             </div>
                         </div>
 
-                        <a href="https://wa.me/5511978683774" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: '100%', marginTop: '16px' }}>
+                        <a
+                            href={`https://wa.me/5511978683774?radarId=${getRadarId()}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-primary"
+                            style={{ width: '100%', marginTop: '16px' }}
+                            data-umami-event="click-whatsapp"
+                            data-umami-event-secao="pagina-contato"
+                        >
                             Falar no WhatsApp
                         </a>
                     </div>
@@ -52,7 +61,16 @@ export default function Contato() {
                     <div className="glass-panel" style={{ padding: '40px' }}>
                         <h3 style={{ fontSize: '1.5rem', marginBottom: '32px', color: 'var(--text-primary)' }}>Envie uma Mensagem</h3>
 
-                        <form style={{ display: 'flex', flexDirection: 'column', gap: '24px' }} onSubmit={(e) => e.preventDefault()}>
+                        <form
+                            style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                const email = e.target.querySelector('[type="email"]')?.value?.trim();
+                                const nome = e.target.querySelector('[type="text"]')?.value?.trim();
+                                window.umami?.track('submit-form', { tipo: 'contato' });
+                                if (email) window.umami?.identify({ email, nome });
+                            }}
+                        >
                             <div>
                                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Nome Completo</label>
                                 <input type="text" placeholder="Seu nome" style={{ width: '100%', padding: '16px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-glass)', color: '#fff', fontSize: '1rem', outline: 'none' }} />

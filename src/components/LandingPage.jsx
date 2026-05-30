@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useTracking, getRadarId } from '../hooks/useTracking';
 import { Link } from 'react-router-dom';
 import {
     ArrowRight, BookOpen, ShieldCheck, TrendingUp, Target,
@@ -61,9 +62,12 @@ export default function LandingPage({ content }) {
         };
     }, [content]);
 
+    const { track } = useTracking();
+
     // Hero CTA rola até a seção final (#contato) em vez de abrir o WhatsApp
-    const scrollToFinalCta = (e) => {
+    const scrollToFinalCta = (e, origem = 'hero-cta') => {
         e.preventDefault();
+        track('scroll-to-contato', { pagina: content.slug || 'home', origem });
         document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
@@ -173,7 +177,12 @@ export default function LandingPage({ content }) {
                                     </>
                                 );
                                 return (
-                                    <Link key={idx} to={card.path} className="audience-card scroll-animate primary">
+                                    <Link
+                                        key={idx}
+                                        to={card.path}
+                                        className="audience-card scroll-animate primary"
+                                        onClick={() => track('click-audiencia', { area: card.title, tipo: 'pagina' })}
+                                    >
                                         {cardContent}
                                     </Link>
                                 );
@@ -198,11 +207,23 @@ export default function LandingPage({ content }) {
                                 );
                                 // Prioridade: âncora local > WhatsApp
                                 return card.anchor ? (
-                                    <a key={idx} href={card.anchor} className="audience-card scroll-animate">
+                                    <a
+                                        key={idx}
+                                        href={card.anchor}
+                                        className="audience-card scroll-animate"
+                                        onClick={() => track('click-audiencia', { area: card.title, tipo: 'ancora' })}
+                                    >
                                         {cardContent}
                                     </a>
                                 ) : (
-                                    <a key={idx} href={card.waLink} target="_blank" rel="noopener noreferrer" className="audience-card scroll-animate">
+                                    <a
+                                        key={idx}
+                                        href={`${card.waLink}&radarId=${getRadarId()}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="audience-card scroll-animate"
+                                        onClick={() => track('click-whatsapp', { area: card.title, secao: 'audiencias' })}
+                                    >
                                         {cardContent}
                                     </a>
                                 );
@@ -232,10 +253,11 @@ export default function LandingPage({ content }) {
                                     ))}
                                 </ul>
                                 <a
-                                    href={content.waLink}
+                                    href={`${content.waLink}&radarId=${getRadarId()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn btn-outline scroll-animate delay-200"
+                                    onClick={() => track('click-whatsapp', { area: content.slug || 'home', secao: 'primeira-graduacao' })}
                                 >
                                     {content.primeiraGraduacao.cta} <ArrowRight size={20} />
                                 </a>
@@ -306,7 +328,7 @@ export default function LandingPage({ content }) {
                                 </p>
                                 <a
                                     href="#contato"
-                                    onClick={scrollToFinalCta}
+                                    onClick={(e) => scrollToFinalCta(e, 'pos-graduacao')}
                                     className="btn btn-accent"
                                 >
                                     {content.posGraduacao.fechamento.cta} <ArrowRight size={20} />
@@ -350,10 +372,11 @@ export default function LandingPage({ content }) {
                             )}
 
                             <a
-                                href={content.transicao.waLink || content.waLink}
+                                href={`${content.transicao.waLink || content.waLink}&radarId=${getRadarId()}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-outline transicao-cta"
+                                onClick={() => track('click-whatsapp', { area: content.slug || 'home', secao: 'transicao' })}
                             >
                                 {content.transicao.cta} <ArrowRight size={20} />
                             </a>
@@ -451,10 +474,11 @@ export default function LandingPage({ content }) {
                             </ul>
 
                             <a
-                                href={content.waLink || 'https://wa.me/551151925444'}
+                                href={`${content.waLink || 'https://wa.me/551151925444'}&radarId=${getRadarId()}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-outline scroll-animate delay-400"
+                                onClick={() => track('click-whatsapp', { area: content.slug || 'home', secao: 'autoridade' })}
                             >
                                 {content.niche.cta} <ArrowRight size={20} />
                             </a>
@@ -495,11 +519,12 @@ export default function LandingPage({ content }) {
                                 Atendimento via WhatsApp
                             </span>
                             <a
-                                href={content.waLink || 'https://wa.me/551151925444'}
+                                href={`${content.waLink || 'https://wa.me/551151925444'}&radarId=${getRadarId()}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-primary"
                                 style={{ padding: '20px 52px', fontSize: '1.2rem' }}
+                                onClick={() => track('click-whatsapp', { area: content.slug || 'home', secao: 'final-cta' })}
                             >
                                 Falar Agora
                             </a>

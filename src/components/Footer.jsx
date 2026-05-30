@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, Mail, Instagram, MapPin } from 'lucide-react';
 import { FOOTER_CONTACT, FOOTER_POLOS } from '../data/footer';
+import { getRadarId } from '../hooks/useTracking';
 import './Footer.css';
 
 export default function Footer() {
@@ -40,17 +41,24 @@ export default function Footer() {
                             <li className="footer-contact-item">
                                 <Phone size={20} className="footer-contact-icon" aria-hidden="true" />
                                 <a
-                                    href={FOOTER_CONTACT.whatsapp.href}
+                                    href={`${FOOTER_CONTACT.whatsapp.href}&radarId=${getRadarId()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="footer-contact-link"
+                                    data-umami-event="click-whatsapp"
+                                    data-umami-event-secao="footer"
                                 >
                                     {FOOTER_CONTACT.whatsapp.display} ({FOOTER_CONTACT.whatsapp.label})
                                 </a>
                             </li>
                             <li className="footer-contact-item">
                                 <Mail size={20} className="footer-contact-icon" aria-hidden="true" />
-                                <a href={`mailto:${FOOTER_CONTACT.email}`} className="footer-contact-link">
+                                <a
+                                    href={`mailto:${FOOTER_CONTACT.email}`}
+                                    className="footer-contact-link"
+                                    data-umami-event="click-email"
+                                    data-umami-event-secao="footer"
+                                >
                                     {FOOTER_CONTACT.email}
                                 </a>
                             </li>
@@ -61,6 +69,8 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="footer-contact-link"
+                                    data-umami-event="click-instagram"
+                                    data-umami-event-secao="footer"
                                 >
                                     {FOOTER_CONTACT.instagram.handle}
                                 </a>
