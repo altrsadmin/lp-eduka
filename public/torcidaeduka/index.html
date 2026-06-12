@@ -30,7 +30,7 @@ const CONFIG = {
   duvidasUrl: "https://wa.me/551151925444?text=Ol%C3%A1%20estou%20com%20d%C3%BAvidas%20sobre%20a%20campanha%20torcida%20eduka",
 
   // Link direto para pré-matrícula.
-  matriculaUrl: "https://prematricula.edukaead.online",
+  matriculaUrl: "https://edukaead.online/prematricula",
 
   // WhatsApp do consultor de carreira (botão "Falar com consultor").
   consultorUrl: "https://wa.me/551151925444?text=Ol%C3%A1%20quero%20ser%20aluno%20e%20participar%20da%20campanha%20torcidaeduka",
@@ -598,6 +598,35 @@ const CONFIG = {
 </footer>
 
 <script>
+/* ===== visitor ID para cross-domain tracking ===== */
+function getRadarId() {
+  try {
+    var s = window.umami && window.umami.getSession && window.umami.getSession();
+    if (s && s.cache) return s.cache;
+  } catch(e) {}
+  var key = 'radar.vid';
+  var id = localStorage.getItem(key);
+  if (!id) {
+    id = (crypto.randomUUID && crypto.randomUUID()) ||
+         (Math.random().toString(36).slice(2) + Date.now().toString(36));
+    localStorage.setItem(key, id);
+  }
+  return id;
+}
+
+/* Appenda radarId como query param sem quebrar URLs existentes */
+function withRadarId(url) {
+  if (!url || url === '#') return url;
+  try {
+    var u = new URL(url);
+    u.searchParams.set('radarId', getRadarId());
+    return u.toString();
+  } catch(e) {
+    var sep = url.indexOf('?') === -1 ? '?' : '&';
+    return url + sep + 'radarId=' + getRadarId();
+  }
+}
+
 /* ===== render dinâmico a partir do CONFIG ===== */
 (function(){
   var meses=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
@@ -745,11 +774,11 @@ const CONFIG = {
     });
     if(key==="aluno"){
       bAluno.style.display="flex"; bMat.style.display="none";
-      ctaBtn.href=e.url;
+      ctaBtn.href=withRadarId(e.url);
     } else {
       bAluno.style.display="none"; bMat.style.display="flex";
-      ctaBtnMat.href=e.urlMat;
-      ctaBtnConsultor.href=e.urlConsultor;
+      ctaBtnMat.href=withRadarId(e.urlMat);
+      ctaBtnConsultor.href=withRadarId(e.urlConsultor);
     }
     ctaNote.textContent=e.note;
     ctaNote.className="signup-cta-note"+(e.strong?" strong":"");
