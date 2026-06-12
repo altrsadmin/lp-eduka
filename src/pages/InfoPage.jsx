@@ -20,6 +20,10 @@ export default function InfoPage() {
   }, [slug]);
 
   useEffect(() => {
+    document.title = title ? `${title} | EdukaEAD` : 'EdukaEAD';
+  }, [title]);
+
+  useEffect(() => {
     let isMounted = true;
 
     async function loadMarkdown() {

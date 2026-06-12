@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTracking } from '../hooks/useTracking';
 import './Header.css';
 
 // Link padrão do CTA do header (mesmo texto do themes.js → global.waLink)
@@ -20,6 +21,7 @@ export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const { track } = useTracking();
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -32,7 +34,8 @@ export default function Header() {
         setIsOpen(false);
     }, [location.pathname]);
 
-    const handleNav = (path) => {
+    const handleNav = (path, label) => {
+        track('nav-click', { destino: path, label, origem: location.pathname });
         navigate(path);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -46,7 +49,7 @@ export default function Header() {
             <div className="fluid-container header-inner">
 
                 {/* Logo */}
-                <div className="header-logo" onClick={() => handleNav('/')}>
+                <div className="header-logo" onClick={() => handleNav('/', 'Logo')}>
                     <img src="/eduka-ead-logo.png" alt="Eduka EAD Logo" />
                 </div>
 
@@ -56,7 +59,7 @@ export default function Header() {
                         {navLinks.map((link) => (
                             <li key={link.name}>
                                 <button
-                                    onClick={() => handleNav(link.path)}
+                                    onClick={() => handleNav(link.path, link.name)}
                                     className={`nav-btn${isActive(link.path) ? ' active' : ''}`}
                                 >
                                     {link.name}
@@ -88,7 +91,7 @@ export default function Header() {
                     {navLinks.map((link) => (
                         <button
                             key={link.name}
-                            onClick={() => handleNav(link.path)}
+                            onClick={() => handleNav(link.path, link.name)}
                             className={`mobile-nav-btn${isActive(link.path) ? ' active' : ''}`}
                         >
                             {link.name}

@@ -9,6 +9,7 @@ import CarreiraPublica from './pages/CarreiraPublica';
 import CarreiraPrivada from './pages/CarreiraPrivada';
 import Sobre from './pages/Sobre';
 import InfoPage from './pages/InfoPage';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path="/carreira-privada" element={<CarreiraPrivada />} />
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/info/:slug" element={<InfoPage />} />
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />

@@ -64,6 +64,33 @@ export default function LandingPage({ content }) {
 
     const { track } = useTracking();
 
+    useEffect(() => {
+        const tag = content.hero?.tag;
+        document.title = tag ? `${tag} | EdukaEAD` : 'EdukaEAD — Consultoria de Carreira EAD em São Paulo';
+    }, [content]);
+
+    // Scroll depth — dispara em 25%, 50%, 75% e 90%
+    useEffect(() => {
+        const page = content.slug || window.location.pathname;
+        const fired = new Set();
+        const thresholds = [25, 50, 75, 90];
+
+        const onScroll = () => {
+            const scrolled = window.scrollY + window.innerHeight;
+            const total = document.documentElement.scrollHeight;
+            const pct = Math.round((scrolled / total) * 100);
+            thresholds.forEach(t => {
+                if (pct >= t && !fired.has(t)) {
+                    fired.add(t);
+                    track('scroll-depth', { percent: t, page });
+                }
+            });
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [content]);
+
     // Hero CTA rola até a seção final (#contato) em vez de abrir o WhatsApp
     const scrollToFinalCta = (e, origem = 'hero-cta') => {
         e.preventDefault();
