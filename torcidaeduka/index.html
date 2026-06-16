@@ -57,9 +57,9 @@ const CONFIG = {
      Adicione novas linhas (mata-mata) à medida que o Brasil avança.
   ------------------------------------------------------------- */
   jogos: [
-    { fase: "Copa do Mundo · Grupo C", data: "2026-06-13", hora: "19:00", adversario: "Marrocos", sigla: "MAR", brasilMandante: true,  placarBrasil: null, placarAdv: null },
+    { fase: "Copa do Mundo · Grupo C", data: "2026-06-13", hora: "19:00", adversario: "Marrocos", sigla: "MAR", brasilMandante: true,  placarBrasil: 1, placarAdv: 1 },
     { fase: "Copa do Mundo · Grupo C", data: "2026-06-19", hora: "21:30", adversario: "Haiti",    sigla: "HAI", brasilMandante: true,  placarBrasil: null, placarAdv: null },
-    { fase: "Copa do Mundo · Grupo C", data: "2026-06-24", hora: "19:00", adversario: "Escócia",  sigla: "ESC", brasilMandante: false, placarBrasil: null, placarAdv: null },
+    { fase: "Copa do Mundo · Grupo C", data: "2026-06-24", hora: "19:00", adversario: "Escócia",  sigla: "ESC", brasilMandante: true, placarBrasil: null, placarAdv: null },
     { fase: "Oitavas de Final", data: null, hora: null, adversario: "A definir", sigla: "???", aguardando: true, placarBrasil: null, placarAdv: null },
     { fase: "Quartas de Final", data: null, hora: null, adversario: "A definir", sigla: "???", aguardando: true, placarBrasil: null, placarAdv: null },
     { fase: "Semifinal",        data: null, hora: null, adversario: "A definir", sigla: "???", aguardando: true, placarBrasil: null, placarAdv: null },
@@ -78,6 +78,7 @@ const CONFIG = {
      Deixe a lista vazia ([]) antes do primeiro sorteio.
   ------------------------------------------------------------- */
   ganhadores: [
+    { nome: "Empatou", jogo: "Brasil 1 x 1 Marrocos", premio: "sem sorteio" },
     // { nome: "Maria S.", dupla: "João P.", cidade: "São Paulo/SP", premio: "R$ 100", jogo: "Brasil 2 x 0 Marrocos" },
     // { nome: "Ana L.", cidade: "Campinas/SP", premio: "R$ 100", jogo: "Brasil 3 x 1 Haiti" },
   ],
