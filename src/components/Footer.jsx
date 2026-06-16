@@ -12,26 +12,31 @@ export default function Footer() {
 
                     {/* Marca */}
                     <div>
-                        <img
-                            src="/eduka-ead-logo-fundo-preto.png"
-                            alt="EdukaEAD"
-                            className="footer-brand-logo"
-                        />
-                        <p className="footer-brand-desc">
-                            Polo Educacional com mais de 10 anos de experiência, parceiro de Instituições de Ensino Superior reconhecidas pelo MEC. Consultoria de carreira gratuita — da matrícula à certificação.
-                        </p>
+                        <div>
+                            <img
+                                src="/eduka-ead-logo-fundo-preto.png"
+                                alt="EdukaEAD"
+                                className="footer-brand-logo"
+                            />
+                            <p className="footer-brand-desc">
+                                Polo Educacional com mais de 10 anos de experiência, parceiro de Instituições de Ensino Superior reconhecidas pelo MEC. Consultoria de carreira gratuita — da matrícula à certificação.
+                            </p>
+                        </div>
                         <a href="/sobre" className="footer-about-btn">Sobre o EdukaEAD</a>
                     </div>
 
                     {/* Navegação */}
                     <div>
-                        <h4 className="footer-col-title">Áreas de Atuação</h4>
-                        <ul className="footer-nav-list">
-                            <li><a href="/guardas" className="footer-nav-link">Guardas Municipais</a></li>
-                            <li><a href="/professores" className="footer-nav-link">Professores</a></li>
-                            <li><a href="/carreira-publica" className="footer-nav-link">Carreira Pública</a></li>
-                            <li><a href="/carreira-privada" className="footer-nav-link">Carreira Privada</a></li>
-                        </ul>
+                        <div>
+                            <h4 className="footer-col-title">Áreas de Atuação</h4>
+                            <ul className="footer-nav-list">
+                                <li><a href="/guardas" className="footer-nav-link">Guardas Municipais</a></li>
+                                <li><a href="/professores" className="footer-nav-link">Professores</a></li>
+                                <li><a href="/carreira-publica" className="footer-nav-link">Carreira Pública</a></li>
+                                <li><a href="/carreira-privada" className="footer-nav-link">Carreira Privada</a></li>
+                            </ul>
+                        </div>
+                        <a href="/prematricula" className="footer-prematricula-btn">Pré-Matrícula</a>
                     </div>
 
                     {/* Canais de contato */}

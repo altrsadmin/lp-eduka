@@ -11,9 +11,10 @@ import Sobre from './pages/Sobre';
 import InfoPage from './pages/InfoPage';
 import NotFound from './pages/NotFound';
 import Prematricula from './pages/Prematricula';
+import Documentos from './pages/Documentos';
 
 // Rotas que exibem layout próprio (sem header/footer do site)
-const FULL_PAGE_ROUTES = ['/prematricula'];
+const FULL_PAGE_ROUTES = ['/prematricula', '/documentos'];
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function AppContent() {
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/info/:slug" element={<InfoPage />} />
           <Route path="/prematricula" element={<Prematricula />} />
+          <Route path="/documentos" element={<Documentos />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

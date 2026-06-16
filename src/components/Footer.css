@@ -12,6 +12,7 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 64px;
   margin-bottom: 48px;
+  align-items: end;
 }
 
 .footer-brand-logo {
@@ -28,6 +29,7 @@
 
 .footer-about-btn {
   display: inline-flex;
+  align-self: flex-start;
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
@@ -67,6 +69,30 @@
 
 .footer-nav-link:hover {
   color: var(--accent-primary);
+}
+
+.footer-prematricula-btn {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  background: rgba(0, 200, 212, 0.15);
+  border: 1px solid rgba(0, 200, 212, 0.5);
+  color: rgba(0, 200, 212, 1);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.footer-prematricula-btn:hover {
+  background: rgba(0, 200, 212, 0.25);
+  border-color: rgba(0, 200, 212, 0.8);
+  color: #00e8f8;
 }
 
 .footer-contact-list {

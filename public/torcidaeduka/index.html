@@ -30,7 +30,7 @@ const CONFIG = {
   duvidasUrl: "https://wa.me/551151925444?text=Ol%C3%A1%20estou%20com%20d%C3%BAvidas%20sobre%20a%20campanha%20torcida%20eduka",
 
   // Link direto para pré-matrícula.
-  matriculaUrl: "https://edukaead.online/prematricula",
+  matriculaUrl: "/prematricula",
 
   // WhatsApp do consultor de carreira (botão "Falar com consultor").
   consultorUrl: "https://wa.me/551151925444?text=Ol%C3%A1%20quero%20ser%20aluno%20e%20participar%20da%20campanha%20torcidaeduka",
@@ -618,7 +618,8 @@ function getRadarId() {
 function withRadarId(url) {
   if (!url || url === '#') return url;
   try {
-    var u = new URL(url);
+    var base = url.startsWith('/') ? window.location.origin : undefined;
+    var u = base ? new URL(url, base) : new URL(url);
     u.searchParams.set('radarId', getRadarId());
     return u.toString();
   } catch(e) {
