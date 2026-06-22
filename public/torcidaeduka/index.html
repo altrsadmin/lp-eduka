@@ -78,8 +78,8 @@ const CONFIG = {
      Deixe a lista vazia ([]) antes do primeiro sorteio.
   ------------------------------------------------------------- */
   ganhadores: [
-    { nome: "Empatou", jogo: "Brasil 1 x 1 Marrocos", premio: "sem sorteio" },
     { nome: "Fuad G. Junior", jogo: "Brasil 3 x 0 Haiti", premio: "R$100" },
+    { nome: "Empatou", jogo: "Brasil 1 x 1 Marrocos", premio: "sem sorteio" },
 
     // { nome: "Maria S.", dupla: "João P.", cidade: "São Paulo/SP", premio: "R$ 100", jogo: "Brasil 2 x 0 Marrocos" },
     // { nome: "Ana L.", cidade: "Campinas/SP", premio: "R$ 100", jogo: "Brasil 3 x 1 Haiti" },
@@ -686,10 +686,10 @@ function withRadarId(url) {
     el.className="game"+(win?" win":"")+(pending?" pending":"");
     var brasilTeam='<span class="team"><span class="flag br">BRA</span>Brasil</span>';
     var advTeam='<span class="team"><span class="flag adv">'+(j.sigla||"???")+'</span>'+(j.adversario||"A definir")+'</span>';
-    var leftTeam  = advTeam;
-    var rightTeam = brasilTeam;
-    var leftS  = j.placarAdv;
-    var rightS = j.placarBrasil;
+    var leftTeam  = j.brasilMandante ? brasilTeam : advTeam;
+    var rightTeam = j.brasilMandante ? advTeam    : brasilTeam;
+    var leftS  = j.brasilMandante ? j.placarBrasil : j.placarAdv;
+    var rightS = j.brasilMandante ? j.placarAdv    : j.placarBrasil;
     if(!played){
       scoreHtml='<span class="score tbd">—</span><span class="vs">x</span><span class="score tbd">—</span>';
     } else {
