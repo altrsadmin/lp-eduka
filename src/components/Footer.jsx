@@ -118,6 +118,7 @@ export default function Footer() {
                             <li><a href="/info/termos" className="footer-legal-link">Termos</a></li>
                             <li><a href="/info/lgpd" className="footer-legal-link">LGPD</a></li>
                         </ul>
+                        <span className="footer-version">{__APP_VERSION__}</span>
                     </div>
                 </div>
             </div>

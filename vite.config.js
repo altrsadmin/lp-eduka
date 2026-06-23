@@ -5,9 +5,13 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'))
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.GITHUB_REF_NAME || pkg.version || 'dev'),
+  },
   plugins: [
     react(),
     {
@@ -31,4 +35,4 @@ export default defineConfig({
       },
     },
   ],
-})
+}))
