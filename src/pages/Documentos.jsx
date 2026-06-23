@@ -152,6 +152,8 @@ function StepUpload({ cpf, setCpf, onDone }) {
       // Passo 1 — upload do arquivo
       const uploadForm = new FormData();
       uploadForm.append('file', arquivo, arquivo.name);
+      uploadForm.append('cpf', cpf.replace(/\D/g, ''));
+      uploadForm.append('tipo_documento', tipo);
       const uploadRes = await fetch(UPLOAD_URL, { method: 'POST', body: uploadForm });
       if (!uploadRes.ok) throw new Error('upload');
       const { url: documento_url } = await uploadRes.json();
