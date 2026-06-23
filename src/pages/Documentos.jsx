@@ -5,6 +5,7 @@
 import { useState } from 'react';
 import './Documentos.css';
 
+const UPLOAD_URL  = 'https://matriculaflow.edukaead.workers.dev/upload';
 const WEBHOOK_URL = import.meta.env.DEV
   ? 'https://workflow.arelis.online/webhook-test/eduka-documento-intake'
   : 'https://workflow.arelis.online/webhook/eduka-documento-intake';
@@ -118,6 +119,7 @@ function StepUpload({ cpf, setCpf, onDone }) {
   const [tipoErr, setTipoErr] = useState(false);
   const [arquivoErr, setArquivoErr] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [progress, setProgress] = useState('');
   const [submitError, setSubmitError] = useState('');
 
   function handleFile(ev) {
@@ -145,20 +147,41 @@ function StepUpload({ cpf, setCpf, onDone }) {
 
     setSubmitting(true);
     setSubmitError('');
+    setProgress('Fazendo upload…');
     try {
-      const form = new FormData();
-      form.append('cpf', cpf.replace(/\D/g, ''));
-      form.append('tipo_documento', tipo);
-      form.append('documento', arquivo, arquivo.name);
-      form.append('timestamp', new Date().toISOString());
-      form.append('source', 'edukaead-documentos');
-      const res = await fetch(WEBHOOK_URL, { method: 'POST', body: form });
-      if (!res.ok) throw new Error('http');
+      // Passo 1 — upload do arquivo
+      const uploadForm = new FormData();
+      uploadForm.append('file', arquivo, arquivo.name);
+      const uploadRes = await fetch(UPLOAD_URL, { method: 'POST', body: uploadForm });
+      if (!uploadRes.ok) throw new Error('upload');
+      const { url: documento_url } = await uploadRes.json();
+      if (!documento_url) throw new Error('upload');
+
+      setProgress('Registrando envio…');
+      // Passo 2 — notificar n8n com a URL
+      const payload = {
+        cpf: cpf.replace(/\D/g, ''),
+        tipo_documento: tipo,
+        documento_url,
+        timestamp: new Date().toISOString(),
+        source: 'edukaead-documentos',
+      };
+      const n8nRes = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!n8nRes.ok) throw new Error('webhook');
       onDone();
-    } catch {
-      setSubmitError('Erro ao enviar. Verifique sua conexão e tente novamente.');
+    } catch (err) {
+      if (err.message === 'upload') {
+        setSubmitError('Erro ao fazer upload do arquivo. Verifique sua conexão e tente novamente.');
+      } else {
+        setSubmitError('Erro ao registrar o envio. Tente novamente.');
+      }
     } finally {
       setSubmitting(false);
+      setProgress('');
     }
   }
 
@@ -216,7 +239,7 @@ function StepUpload({ cpf, setCpf, onDone }) {
 
       <div className="doc-actions">
         <button className="doc-btn-primary" onClick={handleSubmit} disabled={submitting}>
-          {submitting ? 'Enviando…' : 'Enviar documento'}
+          {submitting ? (progress || 'Enviando…') : 'Enviar documento'}
         </button>
       </div>
       <LegalFooter />
