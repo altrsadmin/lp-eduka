@@ -333,6 +333,19 @@ function StepDocumentos({ data, upd, onNext, onBack }) {
       </div>
 
       <div className="pm-field">
+        <label className="pm-label">Sexo</label>
+        <div className="pm-radio-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+          {['Masculino', 'Feminino'].map(s => (
+            <div key={s} className="pm-radio-pill">
+              <input type="radio" id={`sexo-${s}`} name="sexo" value={s}
+                checked={data.sexo === s} onChange={() => upd('sexo', s)} />
+              <label htmlFor={`sexo-${s}`}>{s}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="pm-field">
         <label className="pm-label">Nome da Mãe <span className="pm-req">*</span></label>
         <input className={`pm-input${e('nome_mae')}`} value={data.nome_mae}
           onChange={ev => clr('nome_mae', ev.target.value)} placeholder="Nome completo da mãe" />
@@ -489,6 +502,7 @@ function StepRevisao({ data, submitting, submitError, onSubmit, onBack }) {
         <Row label="Nascimento" value={data.data_nascimento} />
         <Row label="Nome da mãe" value={data.nome_mae} />
         <Row label="Naturalidade" value={data.naturalidade} />
+        {data.sexo && <Row label="Sexo" value={data.sexo} />}
       </div>
 
       <div className="pm-review-section">
@@ -547,6 +561,7 @@ export default function Prematricula() {
     nome: '', email: '', telefone: '',
     cep: '', endereco: '', numero: '', complemento: '', bairro: '', cidade: '', estado: '',
     cpf: '', rg: '', data_nascimento: '', nome_mae: '', naturalidade: '',
+    sexo: '',
     grupo: '',
     dia_vencimento: '', facilidade_preenchimento: '',
     source: 'edukaead-prematricula', representante: '', origem: '', radarId: '',
