@@ -79,7 +79,7 @@ export default function Header() {
                     >
                         Falar com consultores
                     </a>
-                    <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
+                    <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={isOpen}>
                         {isOpen ? <X size={28} /> : <Menu size={28} />}
                     </button>
                 </div>
