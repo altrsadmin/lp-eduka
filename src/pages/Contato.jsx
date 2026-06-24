@@ -18,12 +18,12 @@ export default function Contato() {
 
                     {/* Informações de Contato */}
                     <div className="glass-panel" style={{ padding: '40px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                        <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Nossos Canais</h3>
+                        <h2 style={{ fontSize: '1.5rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Nossos Canais</h2>
 
                         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
                             <MapPin size={24} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
                             <div>
-                                <h4 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>Endereço Principal</h4>
+                                <h3 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>Endereço Principal</h3>
                                 <p style={{ color: 'var(--text-secondary)' }}>Rua Comandante Taylor, 311<br />Ipiranga - São Paulo/SP</p>
                             </div>
                         </div>
@@ -31,7 +31,7 @@ export default function Contato() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                             <Phone size={24} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
                             <div>
-                                <h4 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>Telefone/WhatsApp</h4>
+                                <h3 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>Telefone/WhatsApp</h3>
                                 <p style={{ color: 'var(--text-secondary)' }}>(11) 98573-0062<br />(11) 97868-3774</p>
                             </div>
                         </div>
@@ -39,7 +39,7 @@ export default function Contato() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                             <Mail size={24} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
                             <div>
-                                <h4 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>E-mail</h4>
+                                <h3 style={{ color: 'var(--text-primary)', marginBottom: '4px' }}>E-mail</h3>
                                 <p style={{ color: 'var(--text-secondary)' }}>contato@edukaead.com.br</p>
                             </div>
                         </div>
@@ -59,7 +59,7 @@ export default function Contato() {
 
                     {/* Formulário Simples */}
                     <div className="glass-panel" style={{ padding: '40px' }}>
-                        <h3 style={{ fontSize: '1.5rem', marginBottom: '32px', color: 'var(--text-primary)' }}>Envie uma Mensagem</h3>
+                        <h2 style={{ fontSize: '1.5rem', marginBottom: '32px', color: 'var(--text-primary)' }}>Envie uma Mensagem</h2>
 
                         <form
                             style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}

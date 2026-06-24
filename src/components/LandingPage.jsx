@@ -308,7 +308,7 @@ export default function LandingPage({ content }) {
                                 <React.Fragment key={i}>
                                     <div className="cascade-step">
                                         <span className="cascade-step-num">{step.num}</span>
-                                        <h4 className="cascade-step-title">{step.title}</h4>
+                                        <h3 className="cascade-step-title">{step.title}</h3>
                                         <p className="cascade-step-sub">{step.sub}</p>
                                         <span className="cascade-step-highlight">{step.highlight}</span>
                                     </div>
@@ -517,7 +517,7 @@ export default function LandingPage({ content }) {
                                 <div className="niche-panel-icon">
                                     <ShieldCheck size={28} />
                                 </div>
-                                <h4 className="niche-panel-title">{content.niche.boxTitle}</h4>
+                                <h3 className="niche-panel-title">{content.niche.boxTitle}</h3>
                                 <p className="niche-panel-desc">{content.niche.boxDesc}</p>
                                 <div className="niche-panel-divider"></div>
                                 <p className="niche-panel-tagline">EdukaEAD — Consultoria de Carreira</p>

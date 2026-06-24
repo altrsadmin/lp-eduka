@@ -282,7 +282,7 @@ export default function Documentos() {
   return (
     <div className="doc-page">
       <header className="doc-header">
-        <img src="/eduka-ead-logo.png" alt="EdukaEAD" className="doc-logo" />
+        <img src="/eduka-ead-logo.png" alt="EdukaEAD" className="doc-logo" width="120" height="40" />
       </header>
       <main className="doc-main">
         {step === 0 && <StepBoasVindas onStart={() => setStep(1)} />}

@@ -50,7 +50,7 @@ export default function Header() {
 
                 {/* Logo */}
                 <div className="header-logo" onClick={() => handleNav('/', 'Logo')}>
-                    <img src="/eduka-ead-logo.png" alt="Eduka EAD Logo" />
+                    <img src="/eduka-ead-logo.png" alt="Eduka EAD Logo" width="120" height="40" />
                 </div>
 
                 {/* Desktop Nav */}

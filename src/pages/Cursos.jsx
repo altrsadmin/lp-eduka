@@ -23,7 +23,7 @@ export default function Cursos() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
                     {COURSES.map(course => (
                         <div key={course.id} className="glass-panel" style={{ padding: '32px', transition: 'transform 0.3s ease', cursor: 'pointer' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-8px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', color: 'var(--text-primary)' }}>{course.title}</h3>
+                            <h2 style={{ fontSize: '1.5rem', marginBottom: '16px', color: 'var(--text-primary)' }}>{course.title}</h2>
                             <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>{course.desc}</p>
                             <a href="https://wa.me/5511978683774" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ width: '100%' }}>
                                 Saiba Mais

@@ -665,7 +665,7 @@ export default function Prematricula() {
   return (
     <div className="pm-page">
       <header className="pm-header">
-        <img src="/eduka-ead-logo.png" alt="EdukaEAD" className="pm-logo" />
+        <img src="/eduka-ead-logo.png" alt="EdukaEAD" className="pm-logo" width="120" height="40" />
       </header>
 
       {hasProg && (
