@@ -4,23 +4,23 @@
 EdukaEAD é um polo educacional EAD fundado em 2014, parceiro de Instituições de Ensino Superior reconhecidas pelo MEC. Oferece consultoria de carreira gratuita da matrícula à certificação, com foco em Guardas Municipais, Professores da Rede Pública, servidores e profissionais do mercado privado em São Paulo/SP, Brasil.
 
 CNPJ: 59.684.524/0001-91
-Site: https://edukaead.online/
-Site alternativo (domínio histórico): https://edukaead.com.br/
-Contato: contato@edukaead.com.br
-WhatsApp: https://wa.me/551151925444
-Instagram: https://www.instagram.com/poloedukaead/
+Site: [edukaead.online](https://edukaead.online/)
+Site alternativo (domínio histórico): [edukaead.com.br](https://edukaead.com.br/)
+Contato: [contato@edukaead.com.br](mailto:contato@edukaead.com.br)
+WhatsApp: [wa.me/551151925444](https://wa.me/551151925444)
+Instagram: [@poloedukaead](https://www.instagram.com/poloedukaead/)
 
 ## Cursos oferecidos
-- **Tecnólogo EAD** (2 anos) — Diploma reconhecido pelo MEC. Pontua 80pts na promoção vertical da GCM SP.
-- **Bacharelado EAD** — Graduação com aproveitamento de estudos. Pontua 160pts na promoção vertical da GCM SP.
-- **2ª Licenciatura (R2)** — Habilitação para segunda disciplina docente. Pontua na evolução funcional das redes estadual e municipal de SP.
-- **Pós-Graduação e MBA EAD** — Especializações 360h e MBAs reconhecidos pelo MEC.
+- [Tecnólogo EAD](https://edukaead.online/) (2 anos) — Diploma reconhecido pelo MEC. Pontua 80pts na promoção vertical da GCM SP.
+- [Bacharelado EAD](https://edukaead.online/) — Graduação com aproveitamento de estudos. Pontua 160pts na promoção vertical da GCM SP.
+- [2ª Licenciatura (R2)](https://edukaead.online/professores) — Habilitação para segunda disciplina docente. Pontua na evolução funcional das redes estadual e municipal de SP.
+- [Pós-Graduação e MBA EAD](https://edukaead.online/) — Especializações 360h e MBAs reconhecidos pelo MEC.
 
 ## Públicos atendidos
-- Guardas Municipais de São Paulo (parceiro oficial do Sindguardas-SP, desconto de até 80% para filiados)
-- Professores da rede pública estadual e municipal
-- Servidores públicos em geral
-- Profissionais da carreira privada
+- [Guardas Municipais de São Paulo](https://edukaead.online/guardas) — parceiro oficial do Sindguardas-SP, desconto de até 80% para filiados
+- [Professores da rede pública](https://edukaead.online/professores) — estadual e municipal
+- [Servidores públicos em geral](https://edukaead.online/carreira-publica)
+- [Profissionais da carreira privada](https://edukaead.online/carreira-privada)
 - Estudantes e recém-formados
 
 ## Diferenciais
@@ -31,16 +31,16 @@ Instagram: https://www.instagram.com/poloedukaead/
 - Atendimento presencial em São Paulo e suporte online
 
 ## Páginas principais
-- Homepage: https://edukaead.online/
-- Guardas Municipais: https://edukaead.online/guardas
-- Professores: https://edukaead.online/professores
-- Carreira Pública: https://edukaead.online/carreira-publica
-- Carreira Privada: https://edukaead.online/carreira-privada
-- Pré-Matrícula: https://edukaead.online/prematricula
-- Envio de Documentos: https://edukaead.online/documentos
-- Sobre: https://edukaead.online/sobre
+- [Homepage](https://edukaead.online/)
+- [Guardas Municipais](https://edukaead.online/guardas)
+- [Professores](https://edukaead.online/professores)
+- [Carreira Pública](https://edukaead.online/carreira-publica)
+- [Carreira Privada](https://edukaead.online/carreira-privada)
+- [Pré-Matrícula](https://edukaead.online/prematricula)
+- [Envio de Documentos](https://edukaead.online/documentos)
+- [Sobre](https://edukaead.online/sobre)
 
 ## Políticas
-- Privacidade: https://edukaead.online/info/privacidade
-- Termos de Uso: https://edukaead.online/info/termos
-- LGPD: https://edukaead.online/info/lgpd
+- [Privacidade](https://edukaead.online/info/privacidade)
+- [Termos de Uso](https://edukaead.online/info/termos)
+- [LGPD](https://edukaead.online/info/lgpd)
