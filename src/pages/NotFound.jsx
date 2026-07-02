@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Home } from 'lucide-react';
 
@@ -32,7 +32,7 @@ export default function NotFound() {
                     fontWeight: 700,
                     marginTop: '8px',
                 }}>
-                    Página não encontrada
+                    Ops, essa página se perdeu no caminho
                 </h1>
 
                 <p className="animate-fade-in-up delay-200" style={{
@@ -42,7 +42,8 @@ export default function NotFound() {
                     maxWidth: 480,
                     margin: '16px auto 0',
                 }}>
-                    O endereço que você acessou não existe ou foi removido.
+                    Não encontramos o endereço que você acessou. Mas fique tranquilo(a),
+                    vamos te ajudar a voltar para o caminho certo.
                 </p>
 
                 <div className="animate-fade-in-up delay-300" style={{
