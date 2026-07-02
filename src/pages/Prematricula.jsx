@@ -3,9 +3,11 @@
  * Multi-step form autônomo, sem backend.
  * Dados enviados via POST para o webhook n8n abaixo.
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import './Prematricula.css';
 import { useTracking, getRadarId } from '../hooks/useTracking';
+import { DIAS_VENCIMENTO_DISPONIVEIS } from '../data/diasVencimentoDisponiveis';
+import { resolverOpcoesVencimento, formatarDataISO, formatarDataExtenso } from '../utils/resolverOpcoesVencimento';
 
 // CONFIG — edite aqui e dê build para atualizar
 const WEBHOOK_URL = import.meta.env.DEV
@@ -420,8 +422,23 @@ function StepPerfil({ data, upd, onNext, onBack }) {
 /* ─── Step 5: Comercial ─── */
 function StepComercial({ data, upd, onNext, onBack }) {
   const [error, setError] = useState('');
+
+  // Data da matrícula = momento em que o aluno chega nesta etapa. Calculada
+  // uma única vez (não recalcula a cada re-render) para manter as opções
+  // exibidas estáveis enquanto o aluno decide.
+  const opcoesVencimento = useMemo(
+    () => resolverOpcoesVencimento(new Date(), DIAS_VENCIMENTO_DISPONIVEIS),
+    []
+  );
+
+  function selecionar(opcao) {
+    upd('dia_escolhido', opcao.diaEscolhido);
+    upd('data_sugerida', formatarDataISO(opcao.dataFinal));
+    setError('');
+  }
+
   function next() {
-    if (!data.dia_vencimento) { setError('Selecione o melhor dia de vencimento.'); return; }
+    if (!data.data_sugerida) { setError('Selecione o melhor dia de vencimento.'); return; }
     setError(''); onNext();
   }
   return (
@@ -431,13 +448,15 @@ function StepComercial({ data, upd, onNext, onBack }) {
 
       <div className="pm-field">
         <label className="pm-label">Melhor dia de vencimento <span className="pm-req">*</span></label>
-        <span className="pm-tip">Escolha o dia do mês mais conveniente.</span>
-        <div className="pm-radio-grid">
-          {['5', '10', '15', '20'].map(d => (
-            <div key={d} className="pm-radio-pill">
-              <input type="radio" id={`venc-${d}`} name="dia_vencimento" value={d}
-                checked={data.dia_vencimento === d} onChange={() => upd('dia_vencimento', d)} />
-              <label htmlFor={`venc-${d}`}>Dia {d}</label>
+        <div className="pm-radio-grid pm-radio-grid--vencimento">
+          {opcoesVencimento.map(opcao => (
+            <div key={opcao.diaEscolhido} className="pm-radio-pill">
+              <input type="radio" id={`venc-${opcao.diaEscolhido}`} name="dia_vencimento" value={opcao.diaEscolhido}
+                checked={data.dia_escolhido === opcao.diaEscolhido} onChange={() => selecionar(opcao)} />
+              <label htmlFor={`venc-${opcao.diaEscolhido}`}>
+                Todo dia {opcao.diaEscolhido}
+                <span className="pm-radio-pill-date">1ª em {formatarDataExtenso(opcao.dataFinal)}</span>
+              </label>
             </div>
           ))}
         </div>
@@ -523,7 +542,12 @@ function StepRevisao({ data, submitting, submitError, onSubmit, onBack }) {
       <div className="pm-review-section">
         <p className="pm-review-section-title">Finalização</p>
         <Row label="Área de atuação" value={data.grupo} />
-        <Row label="Vencimento" value={data.dia_vencimento ? `Dia ${data.dia_vencimento}` : ''} />
+        <Row
+          label="Vencimento"
+          value={data.data_sugerida
+            ? `Dia ${data.dia_escolhido} — ${formatarDataExtenso(new Date(`${data.data_sugerida}T00:00:00`))}`
+            : ''}
+        />
         <Row label="Facilidade" value={data.facilidade_preenchimento ? `${data.facilidade_preenchimento} / 5` : ''} />
       </div>
 
@@ -578,7 +602,7 @@ export default function Prematricula() {
     cpf: '', rg: '', data_nascimento: '', nome_mae: '', naturalidade: '',
     sexo: '', estado_civil: '',
     grupo: '',
-    dia_vencimento: '', facilidade_preenchimento: '',
+    dia_escolhido: '', data_sugerida: '', facilidade_preenchimento: '',
     source: 'edukaead-prematricula', representante: '', origem: '', radarId: '',
   });
   const [consultores, setConsultores] = useState([]);

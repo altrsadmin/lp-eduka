@@ -287,12 +287,18 @@
 
 .pm-radio-grid--col1 { grid-template-columns: 1fr; }
 
+/* Vencimento — quantidade de opções varia conforme a regra de negócio
+   (M+1 + no máximo 1 fallback), por isso o grid é flexível. */
+.pm-radio-grid--vencimento { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+
 .pm-radio-pill { position: relative; }
 .pm-radio-pill input { position: absolute; opacity: 0; width: 0; height: 0; }
 .pm-radio-pill label {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.15rem;
   padding: 0.75rem 0.25rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
@@ -308,6 +314,13 @@
   background: rgba(0, 200, 212, 0.12);
   color: var(--accent-primary);
 }
+
+.pm-radio-pill-date {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.pm-radio-pill input:checked + label .pm-radio-pill-date { color: inherit; opacity: 0.8; }
 
 /* Likert */
 .pm-likert {
