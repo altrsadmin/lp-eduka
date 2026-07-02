@@ -296,6 +296,7 @@ function StepDocumentos({ data, upd, onNext, onBack }) {
     if (parts.length !== 8)            e.data_nascimento = true;
     if (!data.nome_mae.trim())         e.nome_mae = true;
     if (!data.naturalidade.trim())     e.naturalidade = true;
+    if (!data.estado_civil.trim())     e.estado_civil = true;
     if (Object.keys(e).length) { setErrs(e); return; }
     setErrs({}); onNext();
   }
@@ -343,6 +344,19 @@ function StepDocumentos({ data, upd, onNext, onBack }) {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="pm-field">
+        <label className="pm-label">Estado Civil <span className="pm-req">*</span></label>
+        <select className={`pm-input${e('estado_civil')}`} value={data.estado_civil}
+          onChange={ev => clr('estado_civil', ev.target.value)}>
+          <option value="">Selecione…</option>
+          <option value="Solteiro(a)">Solteiro(a)</option>
+          <option value="Casado(a)">Casado(a)</option>
+          <option value="Divorciado(a)">Divorciado(a)</option>
+          <option value="Viúvo(a)">Viúvo(a)</option>
+          <option value="União Estável">União Estável</option>
+        </select>
       </div>
 
       <div className="pm-field">
@@ -503,6 +517,7 @@ function StepRevisao({ data, submitting, submitError, onSubmit, onBack }) {
         <Row label="Nome da mãe" value={data.nome_mae} />
         <Row label="Naturalidade" value={data.naturalidade} />
         {data.sexo && <Row label="Sexo" value={data.sexo} />}
+        {data.estado_civil && <Row label="Estado civil" value={data.estado_civil} />}
       </div>
 
       <div className="pm-review-section">
@@ -561,7 +576,7 @@ export default function Prematricula() {
     nome: '', email: '', telefone: '',
     cep: '', endereco: '', numero: '', complemento: '', bairro: '', cidade: '', estado: '',
     cpf: '', rg: '', data_nascimento: '', nome_mae: '', naturalidade: '',
-    sexo: '',
+    sexo: '', estado_civil: '',
     grupo: '',
     dia_vencimento: '', facilidade_preenchimento: '',
     source: 'edukaead-prematricula', representante: '', origem: '', radarId: '',
