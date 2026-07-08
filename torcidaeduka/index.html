@@ -61,10 +61,7 @@ const CONFIG = {
     { fase: "Copa do Mundo · Grupo C", data: "2026-06-19", hora: "21:30", adversario: "Haiti",    sigla: "HAI", brasilMandante: true,  placarBrasil: 3, placarAdv: 0 },
     { fase: "Copa do Mundo · Grupo C", data: "2026-06-24", hora: "19:00", adversario: "Escócia",  sigla: "ESC", brasilMandante: true, placarBrasil: 3, placarAdv: 0 },
     { fase: "16 avos de Final", data: "2026-06-29", hora: null, adversario: "Japão",    sigla: "JAP", brasilMandante: true,  placarBrasil: 2, placarAdv: 1 },
-    { fase: "Oitavas de Final", data: "2026-07-05", hora: "17:00", adversario: "Noruega",  sigla: "NOR", brasilMandante: true,  placarBrasil: null, placarAdv: null },
-    { fase: "Quartas de Final", data: "2026-07-11", hora: "18:00", adversario: "A definir", sigla: "???", aguardando: true, placarBrasil: null, placarAdv: null },
-    { fase: "Semifinal",        data: "2026-07-15", hora: "16:00", adversario: "A definir", sigla: "???", aguardando: true, placarBrasil: null, placarAdv: null },
-    { fase: "Final",            data: "2026-07-19", hora: "16:00", adversario: "A definir", sigla: "???", aguardando: true, placarBrasil: null, placarAdv: null },
+    { fase: "Oitavas de Final", data: "2026-07-05", hora: "17:00", adversario: "Noruega",  sigla: "NOR", brasilMandante: true,  placarBrasil: 1, placarAdv: 2 },
   ],
 
   /* --- GANHADORES ---------------------------------------------
@@ -87,6 +84,17 @@ const CONFIG = {
     // { nome: "Maria S.", dupla: "João P.", cidade: "São Paulo/SP", premio: "R$ 100", jogo: "Brasil 2 x 0 Marrocos" },
     // { nome: "Ana L.", cidade: "Campinas/SP", premio: "R$ 100", jogo: "Brasil 3 x 1 Haiti" },
   ],
+
+  /* --- BANNER DE ENCERRAMENTO ---------------------------------
+     Ligue "encerrado: true" quando a campanha terminar
+     (Brasil eliminado ou campanha encerrada manualmente).
+     Substitui o banner da final por "Promoção encerrada".
+  ------------------------------------------------------------- */
+  encerrado: {
+    ativo: true,                        // <-- mude para false se reabrir
+    titulo: "Promoção encerrada",
+    texto: "A campanha #TorcidaEduka foi encerrada. Agradecemos a todos que participaram e torceram junto conosco! Os ganhadores já foram contatados pelo WhatsApp Oficial.",
+  },
 
   /* --- BANNER DE FINAL (O HEXA) -------------------------------
      Só aparece quando "ativo" for true. Ligue isto se o Brasil
@@ -298,6 +306,15 @@ const CONFIG = {
   .fin-prize-k{text-align:left;font-size:.86rem;color:rgba(255,255,255,.82);line-height:1.25}
   .final-band .btn-gold{background:#08260f;color:var(--gold);box-shadow:0 8px 28px rgba(8,38,15,.3);margin-top:8px}
   .final-band .btn-gold:hover{background:#0c4a2a}
+
+  /* Banner de encerramento */
+  .final-band.ended{background:linear-gradient(135deg,#1e293b,#0f172a);color:var(--text)}
+  .final-band.ended::before{background:radial-gradient(60% 80% at 88% 8%,rgba(0,200,212,.12),transparent 60%)}
+  .final-band.ended .fin-eyebrow{color:var(--teal)}
+  .final-band.ended .fin-title{color:var(--text)}
+  .final-band.ended .fin-text{color:var(--dim)}
+  .game-final-card.ended{border-color:rgba(0,200,212,.4);background:linear-gradient(120deg,rgba(0,200,212,.06),var(--bg2) 55%)}
+  .game-final-card.ended .game-final-label{color:var(--teal)}
 
   /* dupla nos ganhadores */
   .winner-hero .name .amp{color:var(--gold);font-weight:700;margin:0 4px}
@@ -653,10 +670,18 @@ function withRadarId(url) {
   var hc=document.getElementById("heroConsultor"); if(hc) hc.href=CONFIG.consultorUrl;
   var cc=document.getElementById("cardConsultor"); if(cc) cc.href=CONFIG.consultorUrl;
 
-  // ---- banner de final (só se CONFIG.final.ativo) ----
+  // ---- banner de encerramento (prioridade sobre o de final) ----
   var fb=document.getElementById("finalBanner");
+  var E=CONFIG.encerrado||{};
   var F=CONFIG.final||{};
-  if(F.ativo){
+  if(E.ativo){
+    fb.innerHTML=
+      '<section class="final-band ended"><div class="wrap"><div class="final-inner reveal in">'+
+        '<div class="fin-eyebrow">Campanha encerrada</div>'+
+        '<h2 class="fin-title">'+(E.titulo||"Promo\u00e7\u00e3o encerrada")+'</h2>'+
+        '<p class="fin-text">'+(E.texto||"")+'</p>'+
+      '</div></div></section>';
+  } else if(F.ativo){
     var advLine = F.adversario ? '<span class="fin-adv">Brasil x '+F.adversario+'</span>' : '';
     fb.innerHTML=
       '<section class="final-band"><div class="wrap"><div class="final-inner reveal in">'+
@@ -707,18 +732,30 @@ function withRadarId(url) {
     wrap.appendChild(el);
     gl.appendChild(wrap);
   });
-  // ---- card final ----
+  // ---- card final / encerrado ----
   var fw=document.createElement("div");
-  fw.innerHTML=
-    '<div class="game-num">Final</div>'+
-    '<div class="game-final-card">'+
-      '<div>'+
-        '<div class="game-final-label">Grande Final · O Hexa</div>'+
-        '<div class="game-final-title">Brasil Campeão?</div>'+
-        '<div class="game-final-sub">Data e adversário a confirmar.<br>Cadastre-se para concorrer ao sorteio especial da final.</div>'+
-      '</div>'+
-      '<div class="game-final-badge"><small>Sorteio especial</small>R$ 700</div>'+
-    '</div>';
+  if((CONFIG.encerrado||{}).ativo){
+    fw.innerHTML=
+      '<div class="game-num">Fim</div>'+
+      '<div class="game-final-card ended">'+
+        '<div>'+
+          '<div class="game-final-label">Campanha encerrada</div>'+
+          '<div class="game-final-title">Promoção encerrada</div>'+
+          '<div class="game-final-sub">O Brasil foi eliminado e a campanha #TorcidaEduka foi encerrada.<br>Obrigado a todos que participaram!</div>'+
+        '</div>'+
+      '</div>';
+  } else {
+    fw.innerHTML=
+      '<div class="game-num">Final</div>'+
+      '<div class="game-final-card">'+
+        '<div>'+
+          '<div class="game-final-label">Grande Final · O Hexa</div>'+
+          '<div class="game-final-title">Brasil Campeão?</div>'+
+          '<div class="game-final-sub">Data e adversário a confirmar.<br>Cadastre-se para concorrer ao sorteio especial da final.</div>'+
+        '</div>'+
+        '<div class="game-final-badge"><small>Sorteio especial</small>R$ 700</div>'+
+      '</div>';
+  }
   gl.appendChild(fw);
 
   // ---- ganhadores ----
