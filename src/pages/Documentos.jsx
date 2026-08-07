@@ -4,11 +4,10 @@
  */
 import { useState } from 'react';
 import './Documentos.css';
+import { webhookN8n } from '../config/n8n';
 
 const UPLOAD_URL  = 'https://matriculaflow.edukaead.workers.dev/upload';
-const WEBHOOK_URL = import.meta.env.DEV
-  ? 'https://workflow.arelis.online/webhook-test/eduka-documento-intake'
-  : 'https://workflow.arelis.online/webhook/eduka-documento-intake';
+const WEBHOOK_URL = webhookN8n('eduka-documento-intake');
 
 const TIPOS = [
   { value: 'rg',          label: 'RG — Registro Geral' },

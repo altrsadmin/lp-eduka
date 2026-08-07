@@ -8,11 +8,10 @@ import './Prematricula.css';
 import { useTracking, getRadarId } from '../hooks/useTracking';
 import { DIAS_VENCIMENTO_DISPONIVEIS } from '../data/diasVencimentoDisponiveis';
 import { resolverOpcoesVencimento, formatarDataISO, formatarDataExtenso } from '../utils/resolverOpcoesVencimento';
+import { webhookN8n } from '../config/n8n';
 
-// CONFIG — edite aqui e dê build para atualizar
-const WEBHOOK_URL = import.meta.env.DEV
-  ? 'https://workflow.arelis.online/webhook-test/eduka-fichamatrlcula'
-  : 'https://workflow.arelis.online/webhook/eduka-fichamatrlcula';
+// CONFIG — o host do n8n vive em src/config/n8n.js
+const WEBHOOK_URL = webhookN8n('eduka-fichamatrlcula');
 
 /* ─── Formatadores ─── */
 function fPhone(v) {
