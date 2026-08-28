@@ -3,7 +3,7 @@
  * Multi-step form autônomo, sem backend.
  * Dados enviados via POST para o webhook n8n abaixo.
  */
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import './Prematricula.css';
 import { useTracking, getRadarId } from '../hooks/useTracking';
 import { DIAS_VENCIMENTO_DISPONIVEIS } from '../data/diasVencimentoDisponiveis';
@@ -422,13 +422,42 @@ function StepPerfil({ data, upd, onNext, onBack }) {
 function StepComercial({ data, upd, onNext, onBack }) {
   const [error, setError] = useState('');
 
-  // Data da matrícula = momento em que o aluno chega nesta etapa. Calculada
-  // uma única vez (não recalcula a cada re-render) para manter as opções
-  // exibidas estáveis enquanto o aluno decide.
-  const opcoesVencimento = useMemo(
-    () => resolverOpcoesVencimento(new Date(), DIAS_VENCIMENTO_DISPONIVEIS),
-    []
+  // As opções dependem da data do dia — NUNCA podem ficar congeladas.
+  // Abas de celular ficam suspensas por dias e voltam sem recarregar o JS,
+  // então recalculamos sempre que a aba retorna ao foco/visível (inclui
+  // restauração via bfcache), e também revalidamos no avanço do step.
+  const [opcoesVencimento, setOpcoesVencimento] = useState(
+    () => resolverOpcoesVencimento(new Date(), DIAS_VENCIMENTO_DISPONIVEIS)
   );
+
+  useEffect(() => {
+    function recalcular() {
+      if (document.visibilityState !== 'visible') return;
+      const frescas = resolverOpcoesVencimento(new Date(), DIAS_VENCIMENTO_DISPONIVEIS);
+      setOpcoesVencimento(frescas);
+      // Se o dia escolhido ainda é oferecido, atualiza a data sugerida para
+      // a versão fresca (pode ter virado de mês). Se não é mais oferecido,
+      // limpa a seleção para o aluno escolher de novo.
+      if (data.dia_escolhido) {
+        const ainda = frescas.find(o => o.diaEscolhido === data.dia_escolhido);
+        if (ainda) {
+          upd('data_sugerida', formatarDataISO(ainda.dataFinal));
+        } else {
+          upd('dia_escolhido', '');
+          upd('data_sugerida', '');
+          setError('As datas disponíveis foram atualizadas. Escolha novamente.');
+        }
+      }
+    }
+    window.addEventListener('focus', recalcular);
+    window.addEventListener('pageshow', recalcular);
+    document.addEventListener('visibilitychange', recalcular);
+    return () => {
+      window.removeEventListener('focus', recalcular);
+      window.removeEventListener('pageshow', recalcular);
+      document.removeEventListener('visibilitychange', recalcular);
+    };
+  }, [data.dia_escolhido]);
 
   function selecionar(opcao) {
     upd('dia_escolhido', opcao.diaEscolhido);
@@ -437,7 +466,19 @@ function StepComercial({ data, upd, onNext, onBack }) {
   }
 
   function next() {
-    if (!data.data_sugerida) { setError('Selecione o melhor dia de vencimento.'); return; }
+    if (!data.dia_escolhido) { setError('Selecione o melhor dia de vencimento.'); return; }
+    // Revalida no momento do avanço: recalcula com a data de agora e usa
+    // sempre a data fresca — nunca deixa passar data_sugerida defasada.
+    const frescas = resolverOpcoesVencimento(new Date(), DIAS_VENCIMENTO_DISPONIVEIS);
+    const escolhida = frescas.find(o => o.diaEscolhido === data.dia_escolhido);
+    if (!escolhida) {
+      setOpcoesVencimento(frescas);
+      upd('dia_escolhido', '');
+      upd('data_sugerida', '');
+      setError('As datas disponíveis mudaram. Escolha novamente.');
+      return;
+    }
+    upd('data_sugerida', formatarDataISO(escolhida.dataFinal));
     setError(''); onNext();
   }
   return (
@@ -447,6 +488,9 @@ function StepComercial({ data, upd, onNext, onBack }) {
 
       <div className="pm-field">
         <label className="pm-label">Melhor dia de vencimento <span className="pm-req">*</span></label>
+        {opcoesVencimento.length === 0 && (
+          <p className="pm-error">Nenhuma data de vencimento disponível no momento. Recarregue a página.</p>
+        )}
         <div className="pm-radio-grid pm-radio-grid--vencimento">
           {opcoesVencimento.map(opcao => (
             <div key={opcao.diaEscolhido} className="pm-radio-pill">
@@ -667,8 +711,24 @@ export default function Prematricula() {
 
   async function handleSubmit() {
     setSubmitting(true); setSubmitError('');
+
+    // Trava final anti-data-defasada: a aba pode ter ficado aberta na tela de
+    // Revisão por dias. Recalcula as opções com a data de agora e usa a
+    // data_sugerida fresca do dia escolhido. Se o dia não é mais oferecido,
+    // bloqueia o envio e manda o aluno voltar e escolher de novo.
+    const frescas = resolverOpcoesVencimento(new Date(), DIAS_VENCIMENTO_DISPONIVEIS);
+    const venc = frescas.find(o => o.diaEscolhido === data.dia_escolhido);
+    if (!venc) {
+      setSubmitError('As datas de vencimento mudaram desde que você escolheu. Volte e selecione novamente.');
+      setSubmitting(false);
+      return;
+    }
+    const dataSugeridaFresca = formatarDataISO(venc.dataFinal);
+    if (dataSugeridaFresca !== data.data_sugerida) upd('data_sugerida', dataSugeridaFresca);
+
     const payload = {
       ...data,
+      data_sugerida: dataSugeridaFresca,
       radarId: data.radarId || getRadarId(), // garante radarId mesmo sem URL param
       student_name: data.nome,
       timestamp: new Date().toISOString(),
