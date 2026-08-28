@@ -2,18 +2,21 @@
  * Regra de negócio: resolução das opções de dia de vencimento oferecidas
  * na etapa Comercial da ficha de matrícula.
  *
- * Resumo da regra:
+ * Resumo da regra (versão flexível):
  * 1. Existe uma lista mestre de dias candidatos (ex: 5, 10, 15, 20, 25),
  *    configurável em src/data/diasVencimentoDisponiveis.js.
- * 2. Para cada dia, calculamos a data de vencimento no mês SEGUINTE (M+1)
- *    à data da matrícula.
- * 3. Se essa data ultrapassar o limite de dias definido em
- *    LIMITE_DIAS_PRIMEIRA_PARCELA, a opção NÃO é oferecida. Não existe
- *    alternativa no mês atual (M0): vencimentos no mês corrente podem
- *    virar passado (ex: aba do form aberta por dias no celular), então
- *    o dia simplesmente deixa de aparecer até voltar a caber no limite.
+ * 2. Para cada dia, olhamos as ocorrências mensais a partir do mês
+ *    seguinte (M+1, M+2, …) e escolhemos a MAIS DISTANTE que ainda caiba
+ *    no limite de LIMITE_DIAS_PRIMEIRA_PARCELA. Ou seja: se a ocorrência
+ *    de M+1 está muito perto (ex: matrícula dia 28, vencimento dia 5 do
+ *    mês seguinte = só 8 dias), pulamos para M+2 quando ela couber no
+ *    limite — a primeira parcela fica o mais à frente possível.
+ * 3. Se NENHUMA ocorrência do dia couber no limite (nem a de M+1), o dia
+ *    simplesmente não aparece. Nunca oferecemos data no mês atual (M0):
+ *    ela poderia virar passado (ex: aba do form aberta por dias).
  * 4. Resultado ordenado por proximidade (data mais próxima primeiro),
- *    independente do número do dia.
+ *    independente do número do dia — por isso meses podem aparecer
+ *    entrelaçados (ex: 15/09 antes de 05/10).
  *
  * Todas as opções retornadas são sempre futuras e clicáveis — nunca
  * exibimos opção desabilitada.
@@ -73,8 +76,9 @@ export function formatarDataExtenso(date) {
 
 /**
  * Resolve as opções de dia de vencimento a partir da data da matrícula e
- * da lista mestre de dias candidatos. Apenas datas no mês seguinte (M+1)
- * dentro do limite de dias — sem fallback no mês atual.
+ * da lista mestre de dias candidatos. Para cada dia, escolhe a ocorrência
+ * mensal mais distante que ainda caiba no limite de dias (podendo pular
+ * para M+2 ou além) — nunca no mês atual.
  *
  * @param {Date} dataMatricula
  * @param {number[]} diasMestre
@@ -83,23 +87,29 @@ export function formatarDataExtenso(date) {
  */
 export function resolverOpcoesVencimento(dataMatricula, diasMestre) {
   const base = apenasData(dataMatricula);
-
-  // Mês seguinte (M+1) à data da matrícula, com virada de ano em dezembro.
-  const mesM1 = (base.getMonth() + 1) % 12;
-  const anoM1 = base.getMonth() === 11 ? base.getFullYear() + 1 : base.getFullYear();
-
   const opcoes = [];
 
-  // Para cada dia mestre, calcula a data em M+1 e verifica se respeita o
-  // limite de dias da primeira parcela. Quem estoura simplesmente não
-  // entra na lista.
   for (const dia of diasMestre) {
-    const dataM1 = criarData(anoM1, mesM1, dia);
-    const diasAteVencimento = diferencaEmDias(base, dataM1);
+    let melhor = null;
 
-    if (diasAteVencimento <= LIMITE_DIAS_PRIMEIRA_PARCELA) {
-      opcoes.push({ diaEscolhido: dia, dataFinal: dataM1, diasAteVencimento });
+    // Percorre as ocorrências mensais do dia a partir de M+1 (começar em
+    // M+1 garante que a data é sempre futura). Como cada mês seguinte
+    // afasta mais a data, paramos no primeiro que estourar o limite e
+    // ficamos com o último que ainda cabia — a ocorrência mais distante
+    // dentro do prazo. O limite de iterações é só trava de segurança:
+    // com o limite em dias, nunca passamos de ~2 meses à frente.
+    for (let m = 1; m <= 6; m++) {
+      const mesAlvo = (base.getMonth() + m) % 12;
+      const anoAlvo = base.getFullYear() + Math.floor((base.getMonth() + m) / 12);
+      const dataAlvo = criarData(anoAlvo, mesAlvo, dia);
+      const diasAteVencimento = diferencaEmDias(base, dataAlvo);
+
+      if (diasAteVencimento > LIMITE_DIAS_PRIMEIRA_PARCELA) break;
+      melhor = { diaEscolhido: dia, dataFinal: dataAlvo, diasAteVencimento };
     }
+
+    // Se nem a ocorrência de M+1 coube no limite, o dia não é oferecido.
+    if (melhor) opcoes.push(melhor);
   }
 
   // Ordena por proximidade (data mais próxima primeiro), independente do
