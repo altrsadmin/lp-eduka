@@ -583,3 +583,36 @@
   .pm-card { padding: 2.25rem 2rem; }
   .pm-input { font-size: 0.9rem; }
 }
+
+/* ─── Cursos informados pelo aluno (campo opcional, 1 linha por curso) ─── */
+.pm-curso-linha {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.pm-curso-linha .pm-input { flex: 1; min-width: 0; }
+.pm-curso-remover {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.pm-curso-remover:hover { border-color: rgba(255, 255, 255, 0.35); }
+.pm-curso-add {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: none;
+  border: 0;
+  color: var(--pm-accent, #5bc8d6);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pm-curso-add:hover { text-decoration: underline; }

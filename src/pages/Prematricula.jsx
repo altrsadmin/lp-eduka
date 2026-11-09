@@ -418,6 +418,22 @@ function StepPerfil({ data, upd, onNext, onBack }) {
   );
 }
 
+/* ─── Cursos informados pelo aluno (campo opcional, venda assistida) ───
+ * O consultor já informou o curso; o campo existe só porque o cliente pediu.
+ * Cada curso é um input de uma linha; no envio vira UM texto, separado por vírgula. */
+const CURSOS_MAX_ITENS = 10;
+const CURSOS_MAX_ITEM = 60;
+const CURSOS_MAX_TOTAL = 500;
+
+function juntarCursosInformados(lista) {
+  const itens = (Array.isArray(lista) ? lista : [])
+    // vírgula digitada viraria separador falso: troca por espaço
+    .map(c => String(c || '').replace(/[,;\n\r]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, CURSOS_MAX_ITEM))
+    .filter(Boolean)
+    .slice(0, CURSOS_MAX_ITENS);
+  return itens.join(', ').slice(0, CURSOS_MAX_TOTAL);
+}
+
 /* ─── Step 5: Comercial ─── */
 function StepComercial({ data, upd, onNext, onBack }) {
   const [error, setError] = useState('');
@@ -487,6 +503,27 @@ function StepComercial({ data, upd, onNext, onBack }) {
       <p className="pm-subtitle">Quase lá! Só mais duas informações rápidas.</p>
 
       <div className="pm-field">
+        <label className="pm-label">Curso(s) de interesse</label>
+        <span className="pm-tip">Opcional. Seu consultor já registrou o curso; se quiser, escreva aqui. Vamos confirmar com você, não se preocupe com o nome exato.</span>
+        {(data.cursos_lista || ['']).map((c, i, arr) => (
+          <div key={i} className="pm-curso-linha">
+            <input className="pm-input" type="text" value={c} maxLength={CURSOS_MAX_ITEM}
+              placeholder={i === 0 ? 'Ex.: Pedagogia' : 'Outro curso'}
+              aria-label={`Curso ${i + 1}`}
+              onChange={e => upd('cursos_lista', arr.map((x, j) => (j === i ? e.target.value : x)))} />
+            {arr.length > 1 && (
+              <button type="button" className="pm-curso-remover" aria-label={`Remover curso ${i + 1}`}
+                onClick={() => upd('cursos_lista', arr.filter((_, j) => j !== i))}>×</button>
+            )}
+          </div>
+        ))}
+        {(data.cursos_lista || ['']).length < CURSOS_MAX_ITENS && (
+          <button type="button" className="pm-curso-add"
+            onClick={() => upd('cursos_lista', [...(data.cursos_lista || ['']), ''])}>+ Adicionar curso</button>
+        )}
+      </div>
+
+      <div className="pm-field" style={{ marginTop: '1.25rem' }}>
         <label className="pm-label">Melhor dia de vencimento <span className="pm-req">*</span></label>
         {opcoesVencimento.length === 0 && (
           <p className="pm-error">Nenhuma data de vencimento disponível no momento. Recarregue a página.</p>
@@ -585,6 +622,7 @@ function StepRevisao({ data, submitting, submitError, onSubmit, onBack }) {
       <div className="pm-review-section">
         <p className="pm-review-section-title">Finalização</p>
         <Row label="Área de atuação" value={data.grupo} />
+        <Row label="Curso(s) informado(s)" value={juntarCursosInformados(data.cursos_lista)} />
         <Row
           label="Vencimento"
           value={data.data_sugerida
@@ -646,6 +684,7 @@ export default function Prematricula() {
     sexo: '', estado_civil: '',
     grupo: '',
     dia_escolhido: '', data_sugerida: '', facilidade_preenchimento: '',
+    cursos_lista: [''],
     source: 'edukaead-prematricula', representante: '', origem: '', radarId: '',
   });
   const [consultores, setConsultores] = useState([]);
@@ -726,8 +765,10 @@ export default function Prematricula() {
     const dataSugeridaFresca = formatarDataISO(venc.dataFinal);
     if (dataSugeridaFresca !== data.data_sugerida) upd('data_sugerida', dataSugeridaFresca);
 
+    const { cursos_lista, ...dadosEnvio } = data;
     const payload = {
-      ...data,
+      ...dadosEnvio,
+      cursos_informados_aluno: juntarCursosInformados(cursos_lista),
       data_sugerida: dataSugeridaFresca,
       radarId: data.radarId || getRadarId(), // garante radarId mesmo sem URL param
       student_name: data.nome,
