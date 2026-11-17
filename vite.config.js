@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => ({
       name: 'static-subdir-fallback',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
-          const staticRoutes = ['/torcidaeduka']
+          const staticRoutes = ['/torcidaeduka', '/black']
           const match = staticRoutes.find(r =>
             req.url === r || req.url === r + '/' || req.url?.startsWith(r + '/')
           )
