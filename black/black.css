@@ -84,6 +84,7 @@ body{margin:0}
 .sep{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;display:flex;flex-direction:column;gap:14px}
 .selos{flex-direction:row;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px}
 .selo{display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border:1px solid var(--dline);border-radius:999px;font:700 14px "Outfit",sans-serif;letter-spacing:.04em}
+.selo-img{height:48px;width:auto}
 .selo-mec{border-color:var(--cy);color:var(--cy)}
 .q-h{border-left:4px solid var(--cy);padding-left:18px;font-size:clamp(32px,4.4vw,62px);letter-spacing:-.035em}
 .li{padding:18px 0;border-top:1px solid rgba(255,255,255,.18)}
